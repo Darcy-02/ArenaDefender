@@ -19,6 +19,9 @@ public class Game1 : Microsoft.Xna.Framework.Game
     private Player _player;
     private EnemyManager _enemyManager;
     private Texture2D _pixel;
+    private ProjectileManager _projectileManager;
+    private float _shootTimer;
+    private const float ShootInterval = 0.5f;
 
 
     public Game1()
@@ -30,6 +33,7 @@ public class Game1 : Microsoft.Xna.Framework.Game
         _gameManager = new GameManager();
         _inputManager = new InputManager();
         _enemyManager = new EnemyManager();
+        _projectileManager = new ProjectileManager();
     }
 
     protected override void Initialize()
@@ -89,6 +93,14 @@ public class Game1 : Microsoft.Xna.Framework.Game
     {
         _player.Update(gameTime, _inputManager);
         _enemyManager.Update(gameTime, _player.Position);
+        _projectileManager.Update(gameTime);
+        _shootTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+        if (_shootTimer >= ShootInterval)
+        {
+            _shootTimer = 0f;
+            ShootNearestEnemy();
+        }
 
     }
 
@@ -118,7 +130,7 @@ public class Game1 : Microsoft.Xna.Framework.Game
                     40),
                 Color.Blue);
                 foreach (Enemy enemy in _enemyManager.Enemies)
-        {
+                {
                     _spriteBatch.Draw(
                         _pixel,
                         new Rectangle(
@@ -127,11 +139,54 @@ public class Game1 : Microsoft.Xna.Framework.Game
                             40,
                             40),
                         Color.Red);
+                        foreach (Projectile projectile in _projectileManager.Projectiles)
+                        {
+                            _spriteBatch.Draw(
+                                _pixel,
+                                new Rectangle(
+                                    (int)projectile.Position.X,
+                                    (int)projectile.Position.Y,
+                                    10,
+                                    10),
+                                Color.Yellow);
+                        }
                 }
         }
 
         _spriteBatch.End();
 
         base.Draw(gameTime);
+    }
+
+    private void ShootNearestEnemy()
+    {
+        Enemy? nearestEnemy = null;
+        float nearestDistance = float.MaxValue;
+
+        foreach (Enemy enemy in _enemyManager.Enemies)
+        {
+            float distance = Vector2.Distance(
+                _player.Position,
+                enemy.Position);
+
+            if (distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestEnemy = enemy;
+            }
+        }
+
+        if (nearestEnemy == null)
+        {
+            return;
+        }
+
+        Vector2 direction =
+            nearestEnemy.Position - _player.Position;
+
+        _projectileManager.AddProjectile(
+            new Projectile(
+                _player.Position,
+                direction));
     }
 }
