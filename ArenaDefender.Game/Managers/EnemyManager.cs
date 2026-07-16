@@ -44,17 +44,21 @@ public class EnemyManager
 
         switch (side)
         {
-            case 0: // Top
+            case 0: 
                 return new Vector2(_random.Next(0, 800), 0);
 
-            case 1: // Right
+            case 1: 
                 return new Vector2(800, _random.Next(0, 600));
 
-            case 2: // Bottom
+            case 2: 
                 return new Vector2(_random.Next(0, 800), 600);
 
-            default: // Left
+            default: 
                 return new Vector2(0, _random.Next(0, 600));
         }
+    }
+    public void RemoveEnemy(Enemy enemy)
+    {
+        _enemies.Remove(enemy);
     }
 }

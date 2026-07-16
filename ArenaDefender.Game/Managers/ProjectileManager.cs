@@ -28,4 +28,9 @@ public class ProjectileManager
             projectile.Update(gameTime);
         }
     }
+
+    public void RemoveProjectile(Projectile projectile)
+    {
+        _projectiles.Remove(projectile);
+    }
 }

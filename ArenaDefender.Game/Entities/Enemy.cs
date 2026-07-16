@@ -32,4 +32,15 @@ public abstract class Enemy
     Position += direction * Speed *
                 (float)gameTime.ElapsedGameTime.TotalSeconds;
 }
+    public Rectangle Bounds =>
+    new Rectangle(
+        (int)Position.X,
+        (int)Position.Y,
+        40,
+        40);
+        public void TakeDamage(int damage)
+        {
+            Health -= damage;
+        }
+        public bool IsDead => Health <= 0;
 }

@@ -29,4 +29,11 @@ public class Projectile
                     Speed *
                     (float)gameTime.ElapsedGameTime.TotalSeconds;
     }
+
+    public Rectangle Bounds =>
+    new Rectangle(
+        (int)Position.X,
+        (int)Position.Y,
+        10,
+        10);
 }

@@ -5,6 +5,7 @@ using ArenaDefender.Game.Enums;
 using ArenaDefender.Game.Core;
 using ArenaDefender.Game.Managers;
 using ArenaDefender.Game.Entities;
+using System.Collections.Generic;
 
 namespace ArenaDefender.Game;
 
@@ -94,6 +95,7 @@ public class Game1 : Microsoft.Xna.Framework.Game
         _player.Update(gameTime, _inputManager);
         _enemyManager.Update(gameTime, _player.Position);
         _projectileManager.Update(gameTime);
+        HandleCollisions();
         _shootTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
         if (_shootTimer >= ShootInterval)
@@ -188,5 +190,40 @@ public class Game1 : Microsoft.Xna.Framework.Game
             new Projectile(
                 _player.Position,
                 direction));
+    }
+    private void HandleCollisions()
+    {
+        List<Enemy> deadEnemies = new();
+        List<Projectile> usedProjectiles = new();
+
+        foreach (Projectile projectile in _projectileManager.Projectiles)
+        {
+            foreach (Enemy enemy in _enemyManager.Enemies)
+            {
+                if (projectile.Bounds.Intersects(enemy.Bounds))
+                {
+                    enemy.TakeDamage(projectile.Damage);
+
+                    usedProjectiles.Add(projectile);
+
+                    if (enemy.IsDead)
+                    {
+                        deadEnemies.Add(enemy);
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        foreach (Projectile projectile in usedProjectiles)
+        {
+            _projectileManager.RemoveProjectile(projectile);
+        }
+
+        foreach (Enemy enemy in deadEnemies)
+        {
+            _enemyManager.RemoveEnemy(enemy);
+        }
     }
 }
