@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ArenaDefender.Game/ArenaDefender.Game.csproj" />
+  <Project Path="ArenaDefender.Tests/ArenaDefender.Tests.csproj" />
+</Solution>
