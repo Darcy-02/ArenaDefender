@@ -15,6 +15,8 @@ public abstract class Enemy
     public int ScoreValue { get; protected set; }
 
     public bool IsAlive => Health > 0;
+    private float _hitFlashTimer;
+    public bool IsFlashing => _hitFlashTimer > 0f;
 
     protected Enemy(Vector2 startPosition)
     {
@@ -22,6 +24,12 @@ public abstract class Enemy
     }
     public void Update(GameTime gameTime, Vector2 playerPosition)
 {
+
+    if (_hitFlashTimer > 0f)
+    {
+        _hitFlashTimer -=
+            (float)gameTime.ElapsedGameTime.TotalSeconds;
+    }
     Vector2 direction = playerPosition - Position;
 
     if (direction != Vector2.Zero)
@@ -41,6 +49,7 @@ public abstract class Enemy
         public void TakeDamage(int damage)
         {
             Health -= damage;
+            _hitFlashTimer = 0.1f; 
         }
         public bool IsDead => Health <= 0;
 }

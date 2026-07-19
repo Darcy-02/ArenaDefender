@@ -35,3 +35,4 @@ C:\Users\Darcy\Documents\games\ArenaDefender\ArenaDefender.Game\obj\Debug\net9.0
 C:\Users\Darcy\Documents\games\ArenaDefender\ArenaDefender.Game\obj\Debug\net9.0\ArenaDefender.Game.pdb
 C:\Users\Darcy\Documents\games\ArenaDefender\ArenaDefender.Game\obj\Debug\net9.0\ArenaDefender.Game.genruntimeconfig.cache
 C:\Users\Darcy\Documents\games\ArenaDefender\ArenaDefender.Game\obj\Debug\net9.0\ref\ArenaDefender.Game.dll
+C:\Users\Darcy\Documents\games\ArenaDefender\ArenaDefender.Game\bin\Debug\net9.0\Content\DefaultFont.xnb

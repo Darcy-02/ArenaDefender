@@ -13,7 +13,11 @@ public class EnemyManager
 
     private float _spawnTimer;
     private float _spawnInterval = 2f;
+    private int _wave = 1;
+    private float _waveTimer = 0f;
+    private const float WaveDuration = 30f;
     private readonly Random _random = new();
+    public int Wave => _wave;
 
     public EnemyManager()
     {
@@ -29,13 +33,34 @@ public class EnemyManager
         _spawnTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
         if (_spawnTimer >= _spawnInterval)
         {
-            _spawnTimer = 0f;
+        _spawnTimer = 0f;
 
-            AddEnemy(new StandardEnemy(GetRandomSpawnPosition()));
+        Vector2 position = GetRandomSpawnPosition();
+
+        int enemyType = _random.Next(3);
+
+        Enemy enemy = enemyType switch
+        {
+            0 => new StandardEnemy(position),
+            1 => new FastEnemy(position),
+            _ => new TankEnemy(position)
+        };
+
+        AddEnemy(enemy);
         }
         foreach (Enemy enemy in _enemies)
         {
             enemy.Update(gameTime, playerPosition);
+        }
+
+        _waveTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+        if (_waveTimer >= WaveDuration)
+        {
+            _waveTimer = 0f;
+            _wave++;
+
+            _spawnInterval = Math.Max(0.5f, _spawnInterval - 0.2f);
         }
     }
     private Vector2 GetRandomSpawnPosition()

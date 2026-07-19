@@ -20,6 +20,11 @@ public class GameManager
         State = GameState.Playing;
     }
 
+    public void LevelUp()
+    {
+        State = GameState.LevelUp;
+    }
+
     public void GameOver()
     {
         State = GameState.GameOver;

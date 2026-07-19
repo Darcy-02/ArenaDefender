@@ -10,7 +10,7 @@ public class Player
 
     public float Speed { get; private set; }
 
-    public int Health { get; private set; }
+    public int Health { get; private set; } = 100;
 
     public Player(Vector2 startPosition)
     {
@@ -46,4 +46,28 @@ public class Player
 
         Position += direction * Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
     }
+    public Rectangle Bounds =>
+        new Rectangle(
+            (int)Position.X,
+            (int)Position.Y,
+            40,
+            40);
+
+            public void TakeDamage(int damage)
+            {
+                Health -= damage;
+            }
+            public void IncreaseSpeed(float amount)
+            {
+                Speed += amount;
+            }
+
+            public void IncreaseHealth(int amount)
+            {
+                Health += amount;
+            }
+
+            public bool IsDead => Health <= 0;
+    
+
 }
