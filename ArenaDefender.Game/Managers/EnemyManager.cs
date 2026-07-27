@@ -5,6 +5,10 @@ using System;
 
 namespace ArenaDefender.Game.Managers;
 
+/// <summary>
+/// Spawns enemies around the arena edge and escalates difficulty over time
+/// by shortening the spawn interval each wave.
+/// </summary>
 public class EnemyManager
 {
     private readonly List<Enemy> _enemies;
@@ -41,9 +45,9 @@ public class EnemyManager
 
         Enemy enemy = enemyType switch
         {
-            0 => new StandardEnemy(position),
-            1 => new FastEnemy(position),
-            _ => new TankEnemy(position)
+            0 => new StandardEnemy(position, _wave),
+            1 => new FastEnemy(position, _wave),
+            _ => new TankEnemy(position, _wave)
         };
 
         AddEnemy(enemy);
@@ -60,8 +64,19 @@ public class EnemyManager
             _waveTimer = 0f;
             _wave++;
 
-            _spawnInterval = Math.Max(0.5f, _spawnInterval - 0.2f);
+            _spawnInterval = NextSpawnInterval(_spawnInterval);
         }
+    }
+
+    /// <summary>
+    /// Pure difficulty-scaling calculation: each wave, enemies spawn 0.2s
+    /// sooner, down to a floor of 0.5s between spawns. Extracted as a
+    /// static method (no MonoGame types involved) so it can be unit tested
+    /// directly.
+    /// </summary>
+    public static float NextSpawnInterval(float currentInterval, float step = 0.2f, float minimumInterval = 0.5f)
+    {
+        return Math.Max(minimumInterval, currentInterval - step);
     }
     private Vector2 GetRandomSpawnPosition()
     {

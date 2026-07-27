@@ -182,3 +182,4 @@ C:\Users\Darcy\Documents\games\ArenaDefender\ArenaDefender.Tests\obj\Debug\net10
 C:\Users\Darcy\Documents\games\ArenaDefender\ArenaDefender.Tests\obj\Debug\net10.0\ArenaDefender.Tests.pdb
 C:\Users\Darcy\Documents\games\ArenaDefender\ArenaDefender.Tests\obj\Debug\net10.0\ArenaDefender.Tests.genruntimeconfig.cache
 C:\Users\Darcy\Documents\games\ArenaDefender\ArenaDefender.Tests\obj\Debug\net10.0\ref\ArenaDefender.Tests.dll
+C:\Users\Darcy\Documents\games\ArenaDefender\ArenaDefender.Tests\bin\Debug\net10.0\Content\DefaultFont.xnb
